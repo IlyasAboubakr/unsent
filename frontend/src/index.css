@@ -1,0 +1,233 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
+/* ─── Global Reset ─────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.7);
+}
+
+/* ─── Theme Variables ───────────────────────────────── */
+:root {
+  --bg-gradient-start: #eae6f5;
+  --bg-gradient-end:   #dfd8f5;
+  --surface:           rgba(255, 255, 255, 0.4);
+  --surface-hover:     rgba(255, 255, 255, 0.6);
+  --border:            rgba(139, 92, 246, 0.15);
+  --text-primary:      #1a1033;
+  --text-secondary:    #6b7280;
+  --text-muted:        #9ca3af;
+  --accent:            #7c3aed;
+  --accent-glow:       rgba(124, 58, 237, 0.25);
+  --accent-soft:       rgba(124, 58, 237, 0.08);
+  --blob-a:            rgba(124, 58, 237, 0.12);
+  --blob-b:            rgba(236, 72, 153, 0.10);
+  --blob-c:            rgba(59, 130, 246, 0.08);
+  --modal-bg:          rgba(255, 255, 255, 0.85);
+  --skeleton:          rgba(124, 58, 237, 0.07);
+  --skeleton-shine:    rgba(255, 255, 255, 0.6);
+  --shadow-card:       0 4px 24px rgba(124, 58, 237, 0.07), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-hover:      0 12px 40px rgba(124, 58, 237, 0.16), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-modal:      0 24px 64px rgba(124, 58, 237, 0.2), 0 4px 16px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] {
+  --bg-gradient-start: #0a0614;
+  --bg-gradient-end:   #110a22;
+  --surface:           rgba(255, 255, 255, 0.04);
+  --surface-hover:     rgba(255, 255, 255, 0.08);
+  --border:            rgba(139, 92, 246, 0.18);
+  --text-primary:      #f3eeff;
+  --text-secondary:    #a78bfa;
+  --text-muted:        #6b7280;
+  --accent:            #a78bfa;
+  --accent-glow:       rgba(167, 139, 250, 0.3);
+  --accent-soft:       rgba(167, 139, 250, 0.08);
+  --blob-a:            rgba(124, 58, 237, 0.18);
+  --blob-b:            rgba(236, 72, 153, 0.12);
+  --blob-c:            rgba(59, 130, 246, 0.10);
+  --modal-bg:          rgba(15, 8, 28, 0.92);
+  --skeleton:          rgba(167, 139, 250, 0.07);
+  --skeleton-shine:    rgba(255, 255, 255, 0.03);
+  --shadow-card:       0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
+  --shadow-hover:      0 12px 40px rgba(167, 139, 250, 0.18), 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-modal:      0 24px 64px rgba(0,0,0,0.6), 0 4px 16px rgba(167, 139, 250, 0.12);
+}
+
+/* ─── App Background ────────────────────────────────── */
+.app-bg {
+  min-height: 100dvh;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  transition: background 0.5s ease;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ─── Card ──────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid transparent;
+  border-radius: 18px;
+  box-shadow:
+    0 2px 0px rgba(139, 92, 246, 0.06),
+    0 8px 32px rgba(139, 92, 246, 0.10),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  background-clip: padding-box;
+  transition: box-shadow 0.35s ease, transform 0.35s ease, background 0.35s ease;
+}
+
+@media (min-width: 768px) {
+  .card {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+.card:hover {
+  background: var(--surface-hover);
+  transform: translateY(-3px);
+  box-shadow:
+    0 4px 0px rgba(139, 92, 246, 0.08),
+    0 20px 48px rgba(139, 92, 246, 0.18),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+/* ─── Skeleton ──────────────────────────────────────── */
+.skeleton {
+  background: var(--skeleton);
+  border-radius: 0px;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--skeleton-shine) 50%, transparent 100%);
+  animation: skeleton-shine 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-shine {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+/* ─── Blob ──────────────────────────────────────────── */
+.blob {
+  display: none;
+}
+@media (min-width: 768px) {
+  .blob {
+    display: block;
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    animation: blob-drift 12s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+}
+@keyframes blob-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(30px, -20px) scale(1.05); }
+  100% { transform: translate(-20px, 30px) scale(0.95); }
+}
+
+/* ─── Textarea ──────────────────────────────────────── */
+.post-textarea {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  resize: none;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  caret-color: var(--accent);
+}
+.post-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* ─── FAB pulse ─────────────────────────────────────── */
+@keyframes fab-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.05); }
+}
+.fab-pulse {
+  animation: fab-pulse 2.4s ease-in-out infinite;
+}
+
+/* ─── Live ping dot ──────────────────────────────────── */
+@keyframes live-ping {
+  0%   { transform: scale(1); opacity: 0.7; }
+  70%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* ─── Overlay Backdrop ──────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 40;
+}
+
+/* ─── Modal panel ───────────────────────────────────── */
+.modal-panel {
+  background: var(--modal-bg);
+  border: 2px solid var(--accent);
+  border-radius: 0px;
+  box-shadow: 0 0 24px var(--accent-glow), var(--shadow-modal);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* ─── New card glow fade ─────────────────────────────── */
+.new-glow-anim {
+  animation: card-glow-fade 3s ease-out;
+}
+@keyframes card-glow-fade {
+  0%   { background-color: var(--accent-soft); }
+  100% { background-color: var(--surface); }
+}
+
+/* ─── Transitions ───────────────────────────────────── */
+* {
+  transition-property: color, background-color, border-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
